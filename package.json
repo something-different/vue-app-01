@@ -1,0 +1,49 @@
+{
+  "name": "vue-phoneApp-01",
+  "version": "1.0.0",
+  "description": "study-vue-easy",
+  "main": "webpack.config.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "webpack-dev-server --open --contentBase src --hot"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/something-different/vue-phoneApp-01.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.8.3",
+    "jquery": "^3.5.1",
+    "mint-ui": "^2.2.13",
+    "vue": "^2.6.11",
+    "webpack-dev-server": "^3.10.3"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.9.6",
+    "@babel/preset-env": "^7.9.6",
+    "babel-loader": "^8.1.0",
+    "bootstrap": "^3.4.1",
+    "css-loader": "^3.5.3",
+    "fibers": "^5.0.0",
+    "file-loader": "^6.0.0",
+    "html-webpack-plugin": "^4.2.0",
+    "less-loader": "^6.0.0",
+    "sass": "^1.26.5",
+    "sass-loader": "^8.0.2",
+    "style-loader": "^1.2.0",
+    "url-loader": "^4.1.0",
+    "vue-loader": "^15.9.2",
+    "vue-template-compiler": "^2.6.11",
+    "webpack": "^4.43.0"
+  },
+  "bugs": {
+    "url": "https://github.com/something-different/vue-phoneApp-01/issues"
+  },
+  "homepage": "https://github.com/something-different/vue-phoneApp-01#readme"
+}
