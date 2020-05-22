@@ -23,6 +23,7 @@
 ## 点击 tabbar 中的路由链接，展示对应的路由组件
 
 ## 制作首页轮播图布局（axios的使用）
+[axios的使用](https://www.jianshu.com/p/f959366fadb8)
 
 ## 加载首页轮播图数据
 1. 获取数据， 如何获取呢， 使用 axios
@@ -86,7 +87,24 @@ Vue.filter("format",function(dateStr,patten="YYYY-MM-DD HH:MM:SS"){
 })
 ```
 + 使用过滤器`{{item.time | format(YYYY-MM-DD)}}`或者`{{item.time | format}}`
+
+Tips: moment.js是一个方便时间转换工具
 ## 实现 新闻详情 的 页面布局 和数据渲染
+
+这里注意在使用v-html时添加内容样式会失效[失效原因](https://blog.csdn.net/xiaomajia029/article/details/99290671?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.nonecase&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.nonecase)
+
+解决办法：
+1. 使用CSS选择器
+```
+.notes-cont >>> ul > li//使用>>>选择器
+
+```
+2. 加类名，删除scope
+
+在显示内容的时候出现问题（没有后端）
+
+1. 利用fastmock进行端口模拟（渲染title）
+2. 利用FileReader进行本地文件读取（渲染content）
 
 ## 单独封装一个 comment.vue 评论子组件
 1. 先创建一个 单独的 comment.vue 组件模板

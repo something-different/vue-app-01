@@ -7,12 +7,15 @@ import memberContant from './components/tobar-components/memberContant.vue'
 import shopcarContant from './components/tobar-components/shopcarContant.vue'
 import searchContant from './components/tobar-components/searchContant.vue'
 import newsList from './components/home-news/newsList.vue'
+import newsinfo from './components/home-news/newsinfo.vue'
 
 var router = new VueRouter({
     routes:[
         {path:'/',redirect:"/home"},
         {path:'/home',component:homeContant},
         {path:'/home/newsList',component:newsList},
+        {path:'/home/newsinfo/:id',component:newsinfo},
+
         {path:'/member',component:memberContant},
         {path:'/shopcar',component:shopcarContant},
         {path:'/search',component:searchContant},
