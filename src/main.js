@@ -4,12 +4,11 @@ import "./css/index.css"
 import Vue from 'vue'
 
 //导入mint-ui
-import { Header } from 'mint-ui';
+import { Header,Swipe,SwipeItem,Button} from 'mint-ui';
 Vue.component(Header.name, Header);
-
-import { Swipe, SwipeItem } from 'mint-ui';
 Vue.component(Swipe.name, Swipe);
 Vue.component(SwipeItem.name, SwipeItem);
+Vue.component(Button.name, Button);
 
 import 'mint-ui/lib/style.css'
 

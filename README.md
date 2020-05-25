@@ -106,6 +106,23 @@ Tips: moment.js是一个方便时间转换工具
 1. 利用fastmock进行端口模拟（渲染title）
 2. 利用FileReader进行本地文件读取（渲染content）
 
+这里在渲染具体内容时出现问题：
++ 这里没办法直接在fastmock中写具体HTML文件，所以解决办法如下，将HTML文件存储在具体TXT文件中，通过XMLhttprequest对本地文件打开，具体代码如下：
+```
+loadtxt(name) {
+      let xhr = new XMLHttpRequest(),
+      okStatus = document.location.protocol === "file:" ? 0 : 200;
+      xhr.open("GET", name, false);
+      xhr.overrideMimeType("text/html;charset=utf-8"); //默认为utf-8
+      xhr.send(null);
+      return xhr.status === okStatus ? xhr.responseText : null;
+    }
+```
+这里在加载图片时，遇到返回403问题，这里是防止盗用图片的事情发生，这里要在HTML文档最前面加上
+```
+<meta name="referrer" content="no-referrer" />
+```
++ 原因如下：由于referrer在传递时，会携带自己的地址被拦截，但通过设置之后隐藏自己的URL可以对于图片进行加载
 ## 单独封装一个 comment.vue 评论子组件
 1. 先创建一个 单独的 comment.vue 组件模板
 2. 在需要使用 comment 组件的 页面中，先手动 导入 comment 组件
@@ -115,6 +132,7 @@ Tips: moment.js是一个方便时间转换工具
 
 ## 获取所有的评论数据显示到页面中
 1. getComments
+2. 注意组件间的传参问题[组件传参方式](https://www.cnblogs.com/aidixie/p/10385948.html)
 
 ## 实现点击加载更多评论的功能
 1. 为加载更多按钮，绑定点击事件，在事件中，请求 下一页数据
