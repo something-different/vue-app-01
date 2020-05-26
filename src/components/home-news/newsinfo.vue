@@ -4,7 +4,7 @@
     <h3 class="title">{{obj.title}}</h3>
     <!-- 子标题 -->
     <p class="subtitle">
-      <span>{{obj.time}}</span>
+      <span>{{ obj.time | formatTime}}</span>
       <span>{{obj.check}}</span>
     </p>
 
