@@ -1,8 +1,8 @@
 <template>
   <div>
     <div class="mui-card" style="margin-bottom: 35px;">
-      <ul class="mui-table-view" v-for="item in newsList" :key="item.id">
-        <li class="mui-table-view-cell mui-media">
+      <ul class="mui-table-view">
+        <li class="mui-table-view-cell mui-media" v-for="item in newsList" :key="item.id">
           <router-link :to="'/home/newsinfo/'+item.id">
             <img class="mui-media-object mui-pull-right" :src="item.img_url">
             <div class="mui-media-body">
