@@ -1,15 +1,23 @@
 <template>
-  <div>
+  <div class="photoList">
+      <!--头部导航栏-->
     <div id="slider" class="mui-slider">
-				<div id="sliderSegmentedControl" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
-					<div class="mui-scroll">
-						<a :class="['mui-control-item', item.id==0?'mui-active':'']" v-for="item in photoCatalog" :key="item.id">
-							{{item.title}}
-						</a>
-					</div>
-				</div>
-
+		<div id="sliderSegmentedControl" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
+			<div class="mui-scroll">
+				<a :class="['mui-control-item', item.id==0?'mui-active':'']" v-for="item in photoCatalog" :key="item.id" @click="getPhoto(item.id)">
+					{{item.title}}
+				</a>
 			</div>
+		</div>
+	</div>
+
+    <!-- 底部图片懒加载 -->
+    <ul>
+        <li v-for="( item , i ) in photoList" :key="i">
+            <img class="photo" v-lazy="item.img_url">
+        </li>
+    </ul>
+
   </div>
 </template>
 <script>
@@ -18,10 +26,12 @@ export default {
     data(){
         return {
             photoCatalog:[],
+            photoList:[],
         }
     },
     created(){
         this.getPhotoCatalog();
+        this.getPhoto(0);
     },
     mounted(){
         mui('.mui-scroll-wrapper').scroll({
@@ -38,6 +48,16 @@ export default {
             .catch(err=>{
                 console.log(err);
             })
+        },
+        getPhoto(phtotoid){
+            this.axios.get('/api/getImg/'+phtotoid)
+            .then(response=>{
+                console.log(response.data.data);
+                this.photoList=response.data.data;
+            })
+            .catch(err=>{
+                console.log(err);
+            })
         }
     }
 };
@@ -49,6 +69,24 @@ export default {
 .mui-scroll{
     a{
         text-decoration: none;
+    }
+}
+.photoList{
+    ul{
+        padding: 0;
+        margin: 0;
+        li{
+            list-style: none;
+            margin-bottom: 10px;
+            img[lazy=loading] {
+                width: 375px;
+                height: 300px;
+             }
+             .photo{
+                width: 375px;
+                border-radius: 10%;
+             }
+        }
     }
 }
 </style>
