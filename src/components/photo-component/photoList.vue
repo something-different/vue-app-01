@@ -13,9 +13,13 @@
 
     <!-- 底部图片懒加载 -->
     <ul>
-        <li v-for="( item , i ) in photoList" :key="i">
+        <router-link  v-for="( item , i ) in photoList" :key="i" :to="'/home/photoinfo/'+item.id" tag="li">
             <img class="photo" v-lazy="item.img_url">
-        </li>
+            <div class="info">
+                <div class="titile">{{item.title}}</div>
+                <div class="content">{{item.zhaiyao}}</div>
+            </div>
+        </router-link>
     </ul>
 
   </div>
@@ -78,13 +82,30 @@ export default {
         li{
             list-style: none;
             margin-bottom: 10px;
+            background-color: #CCC; 
+            position: relative;
             img[lazy=loading] {
                 width: 375px;
                 height: 300px;
              }
              .photo{
                 width: 375px;
-                border-radius: 10%;
+                border-radius: 5%;
+             }
+             .info{
+                color: white;
+                position: absolute;
+                bottom: 0;
+                border-radius: 5%;
+                max-height: 65px;
+                background: rgba(0,0,0,0.4);
+                padding: 0 15px;
+                 .title{
+                     font-size: 16px;
+                 }
+                 .content{
+                     font-size: 14px;
+                 }
              }
         }
     }

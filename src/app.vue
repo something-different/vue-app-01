@@ -38,7 +38,7 @@ export default {
 
 <style scoped>
 
-.mint-header.is-fixed {height: 50px;font-size: 18px;}
+.mint-header.is-fixed {height: 50px;font-size: 18px;z-index: 99;}
 div{padding-top: 30px;overflow-x: hidden;padding-bottom: 30px;}
 
 .v-enter
