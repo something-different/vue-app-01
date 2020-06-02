@@ -18,6 +18,10 @@ import "bootstrap/dist/css/bootstrap.css"
 //导入MUI
 import './lib/MUI/css/mui.min.css'
 import './lib/MUI/css/icons-extra.css'
+//导入vue-preview
+import VuePreview from'vue-preview'
+Vue.use(VuePreview) 
+
 
 //导入组件
 import app from "./app.vue"

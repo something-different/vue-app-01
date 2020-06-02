@@ -4,7 +4,7 @@
     <div id="slider" class="mui-slider">
 		<div id="sliderSegmentedControl" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
 			<div class="mui-scroll">
-				<a :class="['mui-control-item', item.id==0?'mui-active':'']" v-for="item in photoCatalog" :key="item.id" @click="getPhoto(item.id)">
+				<a :class="['mui-control-item', item.id==0?'mui-active':'']" v-for="(item , i) in photoCatalog" :key="i" @click="getPhoto(i)">
 					{{item.title}}
 				</a>
 			</div>
@@ -56,7 +56,7 @@ export default {
         getPhoto(phtotoid){
             this.axios.get('/api/getImg/'+phtotoid)
             .then(response=>{
-                console.log(response.data.data);
+                console.log(phtotoid);
                 this.photoList=response.data.data;
             })
             .catch(err=>{

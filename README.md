@@ -190,6 +190,13 @@ loadtxt(name) {
 
 ## 实现了 点击图片 跳转到 图片详情页面
 1. 在改造 li 成 router-link 的时候，需要使用 tag 属性指定要渲染为 哪种元素
+2. 如果没有详细信息，则弹出提示，然后回退
+```
+ Toast("这里没有详细情况哦~");
+ let timer=setTimeout(()=>{
+ this.$router.go(-1);
+ },5000)
+```
 
 ## 实现 详情页面的布局和美化，同时获取数据渲染页面
 
@@ -197,7 +204,18 @@ loadtxt(name) {
 1. 使用 插件 vue-preview 这个缩略图插件
 2. 获取到所有的图片列表，然后使用 v-for 指令渲染数据
 3. 注意： img标签上的class不能去掉
-4. 注意： 每个 图片数据对象中，必须有 w 和 h 属性
+4. 注意： 每个 图片数据对象中，必须有 w(大图宽)  h（大图高） src(大图连接) msrc(小图连接) 属性 一般利用forEach进行添加
+```
+this.imglist=response.data.data;
+                this.imglist.forEach(element => {
+                    element.w=1000;
+                    element.h=900;
+                    element.src=element.src;
+                    element.msrc=element.src;
+                });
+```
+5. 使用CSS改变样式
+> 注意这里要去掉`scope`，`figure`为缩略图列表，`img`定义小图属性
 
 ## 绘制 商品列表 页面基本结构并美化
 

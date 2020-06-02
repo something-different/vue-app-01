@@ -43,7 +43,7 @@ export default {
         });
     },
     getinfocontent() {
-      this.infocontent=this.loadtxt("../../../txt/"+this.id+".txt");
+      this.infocontent=this.loadtxt("../../../txt/newsinfo/"+this.id+".txt");
     },
     //加载本地文件
     loadtxt(name) {
