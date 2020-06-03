@@ -9,7 +9,7 @@
         <!--这是缩略图部分-->
         <vue-preview :slides="imglist" @close="handleClose" class="imgpreview"></vue-preview> 
         <!--这是内容部分-->
-        <div class="content"></div>
+        <div class="content">{{photoinfo.content_url}}</div>
         
         <!--评论部分-->
         <conment :getid="this.id"></conment>
@@ -54,7 +54,7 @@ export default {
                 this.imglist=response.data.data;
                 this.imglist.forEach(element => {
                     element.w=1000;
-                    element.h=900;
+                    element.h=800;
                     element.src=element.src;
                     element.msrc=element.src;
                 });
@@ -96,9 +96,9 @@ export default {
             }
         }
     }
-    .pswp__img{
-                width: 375px;
-                height: auto;
-            }
+    .content{
+        font-size: 14px;
+        line-height: 30px
+    }
 }
 </style>

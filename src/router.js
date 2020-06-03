@@ -10,6 +10,7 @@ import newsList from './components/home-news/newsList.vue'
 import newsinfo from './components/home-news/newsinfo.vue'
 import photoList from './components/photo-component/photoList.vue'
 import photoinfo from './components/photo-component/photoinfo.vue'
+import goodList from './components/good-component/goodList.vue'
 
 var router = new VueRouter({
     routes:[
@@ -19,6 +20,7 @@ var router = new VueRouter({
         {path:'/home/newsinfo/:id',component:newsinfo},
         {path:'/home/photoList',component:photoList},
         {path:'/home/photoinfo/:id',component:photoinfo},
+        {path:'/home/goodList',component:goodList},
 
         {path:'/member',component:memberContant},
         {path:'/shopcar',component:shopcarContant},
