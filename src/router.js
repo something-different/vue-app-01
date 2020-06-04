@@ -11,6 +11,7 @@ import newsinfo from './components/home-news/newsinfo.vue'
 import photoList from './components/photo-component/photoList.vue'
 import photoinfo from './components/photo-component/photoinfo.vue'
 import goodList from './components/good-component/goodList.vue'
+import goodinfo from './components/good-component/goodinfo.vue'
 
 var router = new VueRouter({
     routes:[
@@ -21,6 +22,7 @@ var router = new VueRouter({
         {path:'/home/photoList',component:photoList},
         {path:'/home/photoinfo/:id',component:photoinfo},
         {path:'/home/goodList',component:goodList},
+        {path:'/home/goodinfo/:id',component:goodinfo},
 
         {path:'/member',component:memberContant},
         {path:'/shopcar',component:shopcarContant},
