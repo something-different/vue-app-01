@@ -1,38 +1,50 @@
 <template>
     <div>
+        <transition
+        @before-enter="beforeEnter"
+        @enter="enter"
+        @after-enter="afterEnter">
+            <div class="ball" v-show="ballflag"></div>
+        </transition>
         <!--这里是一个图片展示轮播图-->
         <div class="goodimg">
-            <img src="https://g-search2.alicdn.com/img/bao/uploaded/i4/i1/3547265549/O1CN01HVtVER1qrUKgej6o0_!!0-item_pic.jpg_230x230.jpg_.webp" alt="">
+            <mt-swipe :auto="4000">
+            <mt-swipe-item v-for="(item , i) in goodinfoimg" :key="i">
+                <img :src="item">
+            </mt-swipe-item>
+        </mt-swipe>
         </div>
         <!--这里是价格信息-->
         <div class="goodtitle">
-            <h3>馒头社二次元动漫周边福袋抱枕等身蕾姆鬼灭之刃公主连结T恤衣服</h3>
+            <h3>{{goodinfo.good_name}}</h3>
             <hr>
             <div class="goodprice">
-                <span class="old">市场价：￥2699</span>
-                <span class="new">销售价：<span>￥2199</span></span>
+                <span class="old">市场价：￥{{goodinfo.good_price_old}}</span>
+                <span class="new">销售价：<span>￥{{goodinfo.good_price_new}}</span></span>
             </div>
             <div class="goodnum">
                 <span class="mui-content-padded">购买数量:</span> 
-				<div class="mui-numbox" data-numbox-min='1' data-numbox-max='9'>
+				<div class="mui-numbox" data-numbox-min='1' data-numbox-max='9' >
 					<button class="mui-btn mui-btn-numbox-minus" type="button">-</button>
-					<input id="test" class="mui-input-numbox" type="number" />
+					<input id="test" class="mui-input-numbox" type="number" value="1" />
 					<button class="mui-btn mui-btn-numbox-plus" type="button">+</button>
 				</div>
             </div>
             <div class="smallbutton">
                 <mt-button type='primary' size='small'>立即购买</mt-button>
-                <mt-button type='danger' size='small'>加入购物车</mt-button>
+                <mt-button type='danger' size='small' @click="balltrans">加入购物车</mt-button>
             </div>
         </div>
         <!--这里是商品的基本信息-->
         <div class="goodinfo">
             <h3>商品参数</h3>
             <hr>
-            <h5>商品货号：1234567</h5>
-            <h5>库存情况：60件</h5>
-            <h5>上架时间：2015-04-20 01：00：00</h5>
+            <h5>商品货号：{{goodinfo.good_title_num}}</h5>
+            <h5>库存情况：{{goodinfo.good_titie_rest}}件</h5>
+            <h5>上架时间：{{goodinfo.good_title_time | formatTime}}</h5>
             <hr>
+            <mt-button type='primary' size='large' plain @click="goDesc(id)">图文介绍</mt-button>
+            <mt-button type='danger' size='large' plain @click="goCont(id)">商品评论</mt-button>
         </div>
     </div>
 </template>
@@ -40,23 +52,76 @@
 export default {
     data(){
         return{
-
+            id:this.$route.params.id,
+            goodinfo:{},
+            goodinfoimg:[],
+            ballflag:false,
+            ballleft:null,
+            balltop:null,
         }
     },
     created(){
-        this.getgoodnum();
+        this.getgoodinfo();
     },
     methods:{
-        getgoodnum(){
-            var testBox=document.getElementById("test");
-			testBox.addEventListener('change',function(){
-				console.log(testBox.value);
-			});
+        getgoodinfo(){
+            this.axios.get('/api/goodinfo/'+this.id)
+            .then(response=>{
+                this.goodinfo=response.data.data;
+                this.goodinfoimg=response.data.data.img_url;
+            })
+            .catch(err=>{
+                console.log(err);
+            })
+        },
+        balltrans(){
+            this.ballflag=!this.ballflag;
+        },
+        goDesc(id){
+            this.$router.push({name:'gooddesc',params:{id}});
+        },
+        goCont(id){
+            this.$router.push({name:'goodCont',params:{id}});
+        },
+        beforeEnter(el){
+            this.balltop=el.offsetTop;
+            this.ballleft=el.offsetLeft;
+            console.log(this.balltop,this.ballleft);
+            el.style.transform='translate(0 , 0)';
+        },
+        enter(el,done){
+            el.offsetWidth;
+            el.style.transform='translate(77px, 216px)';
+            el.style.transition='all 1s ease'
+            done();
+        },
+        afterEnter(el){
+            this.ballflag=!this.ballflag;
         }
     }
 }
 </script>
 <style lang="scss" scoped>
+.ball{
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: red;
+    position: absolute;
+    z-index: 99;
+    top: 403px;
+    left: 160px;
+}
+.mint-swipe{height: 200px;}
+.mint-swipe{
+    img{width: 100%;height: 100%;}
+}
+hr{
+        box-sizing: content-box;
+        height: 0;
+        background-color: #CCC;
+        margin: 0;
+    }
 .goodimg{
     background-color: #fff;
     width: 94%;
@@ -82,12 +147,7 @@ export default {
         font-weight: bold;
         padding: 10px 10px;
     }
-    hr{
-        box-sizing: content-box;
-        height: 0;
-        background-color: #CCC;
-        margin: 0;
-    }
+    
     .goodprice{
         font-size: 14px;
         color: gray;
@@ -119,29 +179,36 @@ export default {
         button{
             margin: 15px 10px;
             margin-bottom: 20px;
-            .mint-button-text{
-                font-weight: 0;
-                line-height: 33px;
-            }
+        }
+        .mint-button-text{
+            font-weight: 0 !important;
+            line-height: 33px !important;
         }
     }
 }
 .goodinfo{
     background-color: #fff;
     width: 94%;
+    height: 310px;
     margin: 10px 3%;
     border: 1px solid #CCC;
     box-shadow: 0 0 7px #BBB;
-    hr{
-        background-color: #ccc;
-        margin: 0;
-    }
     h3{
-        height: 30px;
-        line-height: 30px;
+        height: 35px;
+        line-height: 35px;
+        padding: 0px 10px;
+        font-size: 18px;
+        font-weight: bold;
     }
     h5{
         padding: 10px;
+    }
+    button{
+        margin: 15px 3%;
+        width: 94%;
+    }
+    .mint-button-text{
+        font-weight: normal;
     }
 }
 </style>

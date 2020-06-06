@@ -1,8 +1,7 @@
 <template>
     <div>
         <div class="goodlist">
-            <div class="gooditem" v-for="(item , i) in goodlist" :key="i">
-                <router-link :to="'/home/goodinfo/'+item.id">
+            <div class="gooditem" v-for="(item , i) in goodlist" :key="i" @click="gotoinfo(item.id)">
                 <img :src="item.img_url" alt="">
                 <h3>{{item.title}}</h3>
                 <div class="bottom">
@@ -12,10 +11,9 @@
                     </div>
                     <div class="content">
                         <span class="status">{{item.status}}</span>
-                        <span class="num">{{item.num}}</span>
+                        <span class="num">库存量：{{item.num}}</span>
                     </div>
                 </div>
-                </router-link>
             </div>
         </div>
         <mt-button type="danger" plain size='large' @click="loadmore">加载更多</mt-button>
@@ -50,6 +48,10 @@ export default {
         loadmore(){
             this.pageIndex++;
             this.getgoodlist();
+        },
+        gotoinfo(id){
+            //this.$router.push('/home/goodinfo/'+id);//编程式导航
+            this.$router.push({name:'goodinfo',params:{id}});//path和params互斥，所以要用name
         }
     }
 }
@@ -74,7 +76,7 @@ export default {
         justify-content: space-between;
         img{
             width: 100%;
-            min-height: 178px;
+            height: 178px;
         }
         h3{
             font-size: 16px;
@@ -85,6 +87,7 @@ export default {
                 background-color: #eee;
                 padding: 3px 5px;
                 margin: 2px 2px;
+                color: grey;
             .price{
                 margin: 6px 0px;
             .new{

@@ -217,7 +217,44 @@ this.imglist=response.data.data;
 5. 使用CSS改变样式
 > 注意这里要去掉`scope`，`figure`为缩略图列表，`img`定义小图属性
 
+## 手机测试
+> 方法：
+>> 在同一WIFI环境中，手机可以连接电脑的IP
+>> 打开自己的项目，在package.json中，在dev脚本中，添加--host指令，把当前电脑的WIFI IP地址设置为--host指令值
+>> 手机打开网址
+
 ## 绘制 商品列表 页面基本结构并美化
+
+> tips：跳转的方式
+>> route-link
+>> `<a>`跳转
+>> `window.location.href`进行编程式导航
+>>> 在VUE中this.$route是路由【参数对象】，所有路由中的参数，params,query都属于它
+>>> this.$router是一个路由【导航对象】，用它可以方便使用js代码实现路由跳转，前进后退(path和params互斥，所以要用name+params)
+
+## 制作小球动画——加入购物车效果
+模板
+```
+<transition
+        @before-enter="beforeEnter"
+        @enter="enter"
+        @after-enter="afterEnter">
+            <div class="ball" v-show="ballflag"></div>
+</transition>
+
+
+beforeEnter(el){
+
+},
+enter(el,done){
+    el.offsetWidth;
+    done();
+},
+afterEnter(el){
+
+}，
+```
+1. 定位小球位置，实现点击按钮进行小球出现消失切换
 
 ## 尝试在手机上 去进行项目的预览和测试
 1. 要保证自己的手机可以正常运行；
