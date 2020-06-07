@@ -225,12 +225,16 @@ this.imglist=response.data.data;
 
 ## 绘制 商品列表 页面基本结构并美化
 
+1. 页面跳转（这里使用的导航对象跳转）
 > tips：跳转的方式
 >> route-link
 >> `<a>`跳转
 >> `window.location.href`进行编程式导航
 >>> 在VUE中this.$route是路由【参数对象】，所有路由中的参数，params,query都属于它
 >>> this.$router是一个路由【导航对象】，用它可以方便使用js代码实现路由跳转，前进后退(path和params互斥，所以要用name+params)
+2. 由于没写后台操作，所以这里通过params进行title传递，通过打开本地文件，读取相关信息
+3. 由于有两部分都要获取本地文件，直接抽离出来，得到获取本地文件的子组件——loadfile.vue
+
 
 ## 制作小球动画——加入购物车效果
 模板
@@ -239,7 +243,7 @@ this.imglist=response.data.data;
         @before-enter="beforeEnter"
         @enter="enter"
         @after-enter="afterEnter">
-            <div class="ball" v-show="ballflag"></div>
+        <div class="ball" v-show="ballflag"></div>
 </transition>
 
 
@@ -255,6 +259,8 @@ afterEnter(el){
 }，
 ```
 1. 定位小球位置，实现点击按钮进行小球出现消失切换
+2. 动态分析小球起点的XY值，和落点的XY值（domObj.getBoundingClientRect（）,返回的是top,left,bottom,rigth）
+3. 相减得到小球移动距离
 
 ## 尝试在手机上 去进行项目的预览和测试
 1. 要保证自己的手机可以正常运行；

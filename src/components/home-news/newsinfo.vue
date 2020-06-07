@@ -10,14 +10,15 @@
 
     <div class="line" style="border: 0.5px solid #ccc;"></div>
     <!-- 内容 -->
-    <div class="content" v-html="infocontent"></div>
+    <loadfile :getpath="path"></loadfile>
     <!-- 评论子组件 -->
-    <conment :getid="this.id"></conment>
+    <conment :getid="id"></conment>
   </div>
 </template>
  
  <script>
  import subconment from "../sub-component/subconment.vue"
+ import subloadfile from '../sub-component/subloadfile.vue'
 
 export default {
   data() {
@@ -25,11 +26,12 @@ export default {
       id: this.$route.params.id,
       obj: {},
       infocontent:{},
+      path:'',
     };
   },
   created() {
+    this.getpath();
     this.getinfo();
-    this.getinfocontent();
   },
   methods: {
     getinfo() {
@@ -42,21 +44,13 @@ export default {
           console.log(err);
         });
     },
-    getinfocontent() {
-      this.infocontent=this.loadtxt("../../../txt/newsinfo/"+this.id+".txt");
-    },
-    //加载本地文件
-    loadtxt(name) {
-      let xhr = new XMLHttpRequest(),
-      okStatus = document.location.protocol === "file:" ? 0 : 200;
-      xhr.open("GET", name, false);
-      xhr.overrideMimeType("text/html;charset=utf-8"); //默认为utf-8
-      xhr.send(null);
-      return xhr.status === okStatus ? xhr.responseText : null;
+    getpath(){
+      this.path='newsinfo/'+this.id
     }
   },
   components:{
-      conment:subconment
+      conment:subconment,
+      loadfile:subloadfile
   }
 };
 </script>

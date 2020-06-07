@@ -4,7 +4,7 @@
         @before-enter="beforeEnter"
         @enter="enter"
         @after-enter="afterEnter">
-            <div class="ball" v-show="ballflag"></div>
+            <div class="ball" v-show="ballflag" ref="ball"></div>
         </transition>
         <!--这里是一个图片展示轮播图-->
         <div class="goodimg">
@@ -43,12 +43,13 @@
             <h5>库存情况：{{goodinfo.good_titie_rest}}件</h5>
             <h5>上架时间：{{goodinfo.good_title_time | formatTime}}</h5>
             <hr>
-            <mt-button type='primary' size='large' plain @click="goDesc(id)">图文介绍</mt-button>
+            <mt-button type='primary' size='large' plain @click="goDesc(goodinfo.good_name,id)" >图文介绍</mt-button>
             <mt-button type='danger' size='large' plain @click="goCont(id)">商品评论</mt-button>
         </div>
     </div>
 </template>
 <script>
+import {Toast} from 'mint-ui'
 export default {
     data(){
         return{
@@ -67,8 +68,15 @@ export default {
         getgoodinfo(){
             this.axios.get('/api/goodinfo/'+this.id)
             .then(response=>{
-                this.goodinfo=response.data.data;
-                this.goodinfoimg=response.data.data.img_url;
+                if(response.data.data){
+                    this.goodinfo=response.data.data;
+                    this.goodinfoimg=response.data.data.img_url;
+                }else{
+                    Toast("这里没有详细信息哦~~~~");
+                    let timer=setTimeout(function(){
+                        this.$router.go(-1);
+                    },5000);
+                }
             })
             .catch(err=>{
                 console.log(err);
@@ -77,25 +85,31 @@ export default {
         balltrans(){
             this.ballflag=!this.ballflag;
         },
-        goDesc(id){
-            this.$router.push({name:'gooddesc',params:{id}});
+        goDesc(title,id){
+            this.$router.push({name:'gooddesc',params:{title,id}});
         },
         goCont(id){
-            this.$router.push({name:'goodCont',params:{id}});
+            this.$router.push({name:'goodcont',params:{id}});
         },
         beforeEnter(el){
-            this.balltop=el.offsetTop;
-            this.ballleft=el.offsetLeft;
-            console.log(this.balltop,this.ballleft);
             el.style.transform='translate(0 , 0)';
         },
         enter(el,done){
             el.offsetWidth;
-            el.style.transform='translate(77px, 216px)';
+            //定位小球位置
+            const ballposition = this.$refs.ball.getBoundingClientRect();
+            const shopbadge=document.getElementById("shopbadge");
+            const shopbadgeposition = shopbadge.getBoundingClientRect();
+            const xdistance=shopbadgeposition.left-ballposition.left;
+            const ydistance=shopbadgeposition.top-ballposition.top;
+            el.style.transform='translate('+xdistance+'px, '+ydistance+'px)';
             el.style.transition='all 1s ease'
             done();
         },
         afterEnter(el){
+             //改变会标数值
+            const shopbadge=document.getElementById("shopbadge");
+            shopbadge.innerText=parseInt(shopbadge.innerText)+1;
             this.ballflag=!this.ballflag;
         }
     }
