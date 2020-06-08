@@ -24,11 +24,7 @@
             </div>
             <div class="goodnum">
                 <span class="mui-content-padded">购买数量:</span> 
-				<div class="mui-numbox" data-numbox-min='1' data-numbox-max='9' >
-					<button class="mui-btn mui-btn-numbox-minus" type="button">-</button>
-					<input id="test" class="mui-input-numbox" type="number" value="1" />
-					<button class="mui-btn mui-btn-numbox-plus" type="button">+</button>
-				</div>
+				<numberbox @getcount='getCount' :max='goodinfo.good_titie_rest'></numberbox>
             </div>
             <div class="smallbutton">
                 <mt-button type='primary' size='small'>立即购买</mt-button>
@@ -50,6 +46,7 @@
 </template>
 <script>
 import {Toast} from 'mint-ui'
+import subnumberboxVue from '../sub-component/subnumberbox.vue'
 export default {
     data(){
         return{
@@ -59,6 +56,7 @@ export default {
             ballflag:false,
             ballleft:null,
             balltop:null,
+            selectnum:1,
         }
     },
     created(){
@@ -109,9 +107,15 @@ export default {
         afterEnter(el){
              //改变会标数值
             const shopbadge=document.getElementById("shopbadge");
-            shopbadge.innerText=parseInt(shopbadge.innerText)+1;
+            shopbadge.innerText=parseInt(this.selectnum);
             this.ballflag=!this.ballflag;
+        },
+        getCount(num){
+            this.selectnum=num;
         }
+    },
+    components:{
+        numberbox:subnumberboxVue
     }
 }
 </script>

@@ -262,6 +262,61 @@ afterEnter(el){
 2. 动态分析小球起点的XY值，和落点的XY值（domObj.getBoundingClientRect（）,返回的是top,left,bottom,rigth）
 3. 相减得到小球移动距离
 
+## 商品详细介绍页面
+1. 渲染页面
+2. 这里利用MUI的numberbox组件
+3. 这里将numberbox组件抽离出来，成为子组件
+4. 这里需要组件间的传值问题
+
+> 子组件向父组件传值
+>> 利用`this.$emit()`进行传值
+
+>> 子组件代码如下：  
+```
+this.$emit('function',this.data)//这里function是父组件的绑定函数
+```
+>> 父组件代码如下：
+```
+<component @function="getnum"></component>
+...
+getnum(num){
+    this.childnum=num;
+}
+```
+
+> 父组件向子组件传值
+>> 利用属性传值`props[]`
+
+>> 父组件代码
+```
+<component :num='number'></component>
+```
+>> 子组件代码
+```
+props:[
+    'num',
+]
+....
+this.num
+```
+
+> 这里遇到一个问题，就是在渲染加入购物车的最大值时，`:data-numbox-max='goodinfo.good_titie_rest'`出错
+>> 原因：由于goodinfo这个对象是通过axios异步获取得到，所以在页面渲染的时候，数据可能还没传过来，所以会得到undefined
+
+>> 无法得知什么时候获取到数据
+
+>> 解决办法：使用属性监听解决 watch————在axios之后，立即赋值给goodrest然后对goodrest进行watch监听
+
+```
+watch:{
+    num:function(newval,oldval){
+
+    }
+}
+```
+## VUEX介绍
+存储公共数据，存入一些公共数据，可供调用
+
 ## 尝试在手机上 去进行项目的预览和测试
 1. 要保证自己的手机可以正常运行；
 2. 要保证 手机 和 开发项目的电脑 处于同一个 WIFI 环境中，也就是说 手机 可以 访问到 电脑的 IP
