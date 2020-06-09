@@ -82,6 +82,15 @@ export default {
         },
         balltrans(){
             this.ballflag=!this.ballflag;
+            //对象内容应该是{id：商品id,title:商品title，count：商品数量，price：商品单价，selected：商品选择状态}
+            var shopobj={
+                id:this.id,
+                title:this.goodinfo.good_name,
+                count:this.selectnum,
+                price:this.goodinfo.good_price_new,
+                selectnum:false
+            };
+            this.$store.commit('addgood',shopobj);
         },
         goDesc(title,id){
             this.$router.push({name:'gooddesc',params:{title,id}});

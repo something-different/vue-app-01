@@ -22,12 +22,46 @@ import './lib/MUI/css/icons-extra.css'
 import VuePreview from'vue-preview'
 Vue.use(VuePreview) 
 
-
 //导入组件
 import app from "./app.vue"
 
 //导入路由
 import router from './router.js'
+//导入vuex
+import Vuex from 'vuex'
+Vue.use(Vuex);
+const store=new Vuex.Store({
+    state:{
+        shopcar:[],
+        //对象内容应该是{id：商品id,title:商品title，count：商品数量，price：商品单价，selected：商品选择状态}
+    },
+    mutations:{
+        addgood(state,goodinfo){
+            var flag=false;
+            //有的话更新count
+            state.shopcar.some(item=>{
+                if(item.id==goodinfo.id){
+                    item.count+=parseInt(goodinfo.count);
+                    flag=true;
+                    return true;
+                }
+            })
+            //没有的话push进去
+            if(!flag){
+                state.shopcar.push(goodinfo);
+            }
+        }
+    },
+    getters:{
+        getallcount(state){
+            var c=0;
+            state.shopcar.forEach(item=>{
+                c+=item.count;
+            });
+            return c;
+        }
+    }
+})
 
 //导入axios
 import axios from 'axios'
@@ -51,4 +85,5 @@ var vm = new Vue({
         return creatElements(app);
     },//可简写为render:c=>c(login)创建的login.vue文件
     router,
+    store,
 })

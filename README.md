@@ -315,7 +315,58 @@ watch:{
 }
 ```
 ## VUEX介绍
-存储公共数据，存入一些公共数据，可供调用
+存储公共数据，存入一些公共数据，可供调用，不用通过父子组件，但是私有数据不用放到vuex中，私有数据放在 ：props和data中
+
+vuex相当于是一个公共仓库[详细讲解vuex](https://vuex.vuejs.org/zh/installation.html)
+
+1. 安装vuex`npm install vuex --save`
+2. 导入包`import Vuex from 'vuex`
+3. 注册vuex到vue中`Vue.use(Vuex)`
+4. 创建实例
+```
+var store = new Vuex.Store({
+    state:{//相当于data，用于存储数据
+        count:0
+    },
+    mutations:{}
+})
+```
+5. 在vue实例中注册
+```
+const vm =new Vue({
+    ....
+    store:store
+    ....
+})
+```
+6. 获取store数据，通过`this.$store.state.XXX`获取，只要挂载到vue实例中，其他的组件都可以使用 
+7. 如果要调用store中的state的值，只能通过mutations提供的方法，才能操作对应数据，不能直接操作state中的数据,便于后续代码维护
+```
+....
+mutations:{
+    add(state){
+        state.count++
+    }
+}//调用时通过this.$store.commit("方法名")
+....
+```
+> mutation参数列表支持两参数，第一个为states状态，第二个为参数（单参数，对象，数组）
+8. vuex 的getters属性，只负责对外提供数据，不负责修改数据，修改在mutations
+```
+getters:{
+    getCount:function(state){
+        return  "this is"+state.count
+    }//类似于过滤器，没有修改数据，是在包装数据
+    //类似于compute只要states发生变化，如果getter正好引用了这个数据，那么就会立即触发事件
+}
+```
+> 总结：
+>1. states中的数据不能直接修改，如果要修改，可以通过mutation进行修改
+>2. 从states获取数据，通过`this.$store.state.XXX`获取
+>3. 如果组件要修改数据，则要通过mutations提供的方法需要通过`this.$store.commit('func',args)`获取
+>4. 如果store中的state上的数据，在对外提供的时候，需要做一层包装，那么推荐使用getters,此时可以通过`this.$store.getter.XXX`实现
+
+
 
 ## 尝试在手机上 去进行项目的预览和测试
 1. 要保证自己的手机可以正常运行；
