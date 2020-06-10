@@ -354,7 +354,7 @@ mutations:{
 8. vuex 的getters属性，只负责对外提供数据，不负责修改数据，修改在mutations
 ```
 getters:{
-    getCount:function(state){
+    getCount:(state)=>()=>{//第二个括号是需要传的参数
         return  "this is"+state.count
     }//类似于过滤器，没有修改数据，是在包装数据
     //类似于compute只要states发生变化，如果getter正好引用了这个数据，那么就会立即触发事件
@@ -365,6 +365,15 @@ getters:{
 >2. 从states获取数据，通过`this.$store.state.XXX`获取
 >3. 如果组件要修改数据，则要通过mutations提供的方法需要通过`this.$store.commit('func',args)`获取
 >4. 如果store中的state上的数据，在对外提供的时候，需要做一层包装，那么推荐使用getters,此时可以通过`this.$store.getter.XXX`实现
+
+> vuex的getters类似于计算属性。但是我遇到的问题是，第一次在getters中可以获取到state的数据更新了，但是之后就不会获取到。
+> 原因：getter 在通过属性访问时是作为 Vue 的响应式系统的一部分缓存其中的；而getter 在通过方法访问时，每次都会去进行调用，而不会缓存结果。
+> 修改如下： 
+```
+mySelf:(state)=>()=>{
+	return xxx;
+}
+```
 
 
 

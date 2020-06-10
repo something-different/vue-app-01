@@ -3,13 +3,16 @@ import "./css/index.css"
 
 import Vue from 'vue'
 
+//使用vue-dev
+Vue.config.devtools = true;
 //导入mint-ui
-import { Header,Swipe,SwipeItem,Button,Lazyload} from 'mint-ui';
+import { Header,Swipe,SwipeItem,Button,Lazyload,Switch} from 'mint-ui';
 Vue.component(Header.name, Header);
 Vue.component(Swipe.name, Swipe);
 Vue.component(SwipeItem.name, SwipeItem);
 Vue.component(Button.name, Button);
 Vue.use(Lazyload);
+Vue.component(Switch.name, Switch);
 
 import 'mint-ui/lib/style.css'
 
@@ -22,17 +25,15 @@ import './lib/MUI/css/icons-extra.css'
 import VuePreview from'vue-preview'
 Vue.use(VuePreview) 
 
-//导入组件
-import app from "./app.vue"
-
 //导入路由
 import router from './router.js'
 //导入vuex
 import Vuex from 'vuex'
 Vue.use(Vuex);
+var shopcar=JSON.parse(sessionStorage.getItem("shopcar")) || [];
 const store=new Vuex.Store({
     state:{
-        shopcar:[],
+        shopcar:shopcar,
         //对象内容应该是{id：商品id,title:商品title，count：商品数量，price：商品单价，selected：商品选择状态}
     },
     mutations:{
@@ -50,10 +51,12 @@ const store=new Vuex.Store({
             if(!flag){
                 state.shopcar.push(goodinfo);
             }
+            //暂时暂存到SessionStorage中
+            sessionStorage.setItem("shopcar",JSON.stringify(state.shopcar));
         }
     },
     getters:{
-        getallcount(state){
+        getallcount:(state)=>{
             var c=0;
             state.shopcar.forEach(item=>{
                 c+=item.count;
@@ -76,6 +79,9 @@ import moment from 'moment'
 Vue.filter("formatTime",function(dateStr,patten="YYYY-MM-DD HH:MM:SS"){
     return moment(dateStr).format(patten)
 })
+
+//导入组件
+import app from "./app.vue"
 
 var vm = new Vue({
     el:"#app",

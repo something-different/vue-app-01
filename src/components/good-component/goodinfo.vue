@@ -88,7 +88,8 @@ export default {
                 title:this.goodinfo.good_name,
                 count:this.selectnum,
                 price:this.goodinfo.good_price_new,
-                selectnum:false
+                img:this.goodinfoimg[0],
+                selectnum:true,
             };
             this.$store.commit('addgood',shopobj);
         },
@@ -114,9 +115,6 @@ export default {
             done();
         },
         afterEnter(el){
-             //改变会标数值
-            const shopbadge=document.getElementById("shopbadge");
-            shopbadge.innerText=parseInt(this.selectnum);
             this.ballflag=!this.ballflag;
         },
         getCount(num){
