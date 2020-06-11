@@ -53,6 +53,10 @@ const store=new Vuex.Store({
             }
             //暂时暂存到SessionStorage中
             sessionStorage.setItem("shopcar",JSON.stringify(state.shopcar));
+        },
+        updategoodinfo(state,goodinfo){
+            //购物车的数据同步
+            
         }
     },
     getters:{

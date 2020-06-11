@@ -89,8 +89,9 @@ export default {
                 count:this.selectnum,
                 price:this.goodinfo.good_price_new,
                 img:this.goodinfoimg[0],
-                selectnum:true,
+                selectflag:true,
             };
+            //改变vuex内的数据内容
             this.$store.commit('addgood',shopobj);
         },
         goDesc(title,id){
