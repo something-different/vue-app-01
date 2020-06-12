@@ -366,16 +366,34 @@ getters:{
 >3. 如果组件要修改数据，则要通过mutations提供的方法需要通过`this.$store.commit('func',args)`获取
 >4. 如果store中的state上的数据，在对外提供的时候，需要做一层包装，那么推荐使用getters,此时可以通过`this.$store.getter.XXX`实现
 
-> vuex的getters类似于计算属性。但是我遇到的问题是，第一次在getters中可以获取到state的数据更新了，但是之后就不会获取到。
-> 原因：getter 在通过属性访问时是作为 Vue 的响应式系统的一部分缓存其中的；而getter 在通过方法访问时，每次都会去进行调用，而不会缓存结果。
-> 修改如下： 
+## goodinfo界面中加入购物车和tobar的badge数值统一
+这里使用了vuex
+1. 在main.js中定义vue，定义数组shopcar
 ```
-mySelf:(state)=>()=>{
-	return xxx;
-}
+//导入vuex
+import Vuex from 'vuex'
+Vue.use(Vuex);
+const store=new Vuex.Store({
+    state:{
+        shopcar:[],
+    },
+    mutations:{
+    },
+    getters:{
+    }
 ```
+2. 在goodinfo界面中，点击按钮加入对象（注意这里使用vuex的mutation）`this.$store.commit('addgood',shopobj);`然后在main.js中对addgood进行定义，判断是相同id则加count，否则直接push
+3. 这里需要注意修改，此时的购物车只要一刷新本来购物车的物品就会消失，所以需要将数据添加到sessionStorage中，在开始赋值的时候进行getItem取值，赋值给shopcar
+4. 修改tobar中的badge值，这里通过getter进行获取sumcount值`$store.getters.getallcount`
 
+## 购物车界面
+1. 渲染页面这里页面信息可以直接从sessioStorage获取
+2. 保证商品count和之前的加入购物车的信息一致：将从sessioStorage获取的count值传值给子组件subnumberbox，设置value的值
+3. 购物车界面可以继续添加物品，物品数量和tobar下标保持一致
 
+   3.1 这里首先要获取用户点击不同的gooditem的id和count值，这里通过向子组件传递这两个值，再通过子组件传回来得到值（这里应该有更好的方法，但是此时的numberbox封装成子组件，导致无法直接获取，所以组件有优点也有缺点啊~~~）
+   
+   3.2 在获取了id 和count 值之后，可以重新更改store中的值（通过mutations）和sessionStorage的值
 
 ## 尝试在手机上 去进行项目的预览和测试
 1. 要保证自己的手机可以正常运行；

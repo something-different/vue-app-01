@@ -12,7 +12,7 @@
                 <h3>{{item.title}}</h3> 
                 <div class="info">
                     <span class="price">￥{{item.price}}</span>
-                    <numberbox :value="item.count" :id="item.id" @getcount='getcount' ref="numberboxid"></numberbox>
+                    <numberbox :value="item.count" :id="item.id" @getcount='getcount' @getshopcarid='getshopcarid'></numberbox>
                     <a href="" class="del">删除</a>
                 </div>
             </div>
@@ -35,6 +35,8 @@ export default {
     data(){
         return {
             goodcarlist:JSON.parse(sessionStorage.getItem("shopcar")),
+            itemid:null,
+            itemcount:null,
             sumnum:0,
             sumprice:0,
             sumarr:new Map(),
@@ -43,26 +45,33 @@ export default {
     created(){
         //this.getsum();
     },
-    methods:{
-        getcount(num){
-            console.log(num,this.$refs.numberboxid);
-            //this.$store.commit('update',shopobj);
+    watch:{
+        itemcount:function(newval,oldval){
+            this.updatestore();
         }
-        // getsum(id,value,count,price){
-        //     if(value){
-        //         var obj={
-        //             count:count,
-        //             price:price
-        //         }
-        //         this.sumarr.set(id,obj);
-        //     }else{
-        //         this.sumarr.delete(id);
-        //     }
-        //     for(var item of this.sumarr.entries()){
-        //         this.sumnum+=item[1].count;
-        //         this.sumprice+=parseInt(item[1].price);
-        //     }
-        // }
+    },
+    methods:{
+        //获取子节点传来的count值
+        getcount(num){
+            //console.log('count'+num);
+            this.itemcount=num;
+        },
+        //获取子节点传来的id值
+        getshopcarid(num){
+            //console.log('id'+num);
+            this.itemid=num;
+        },
+        //更新store中的数据
+        updatestore(){
+            var obj={
+                id:this.itemid,
+                count:this.itemcount,
+            }
+            this.$store.commit('updategoodinfo',obj);
+        },
+        getsum(id,value,count,price){
+            console.log(id,value,count,price);
+        }
     },
     components:{
         numberbox:subnumberboxVue

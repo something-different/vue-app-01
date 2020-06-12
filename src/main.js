@@ -54,9 +54,16 @@ const store=new Vuex.Store({
             //暂时暂存到SessionStorage中
             sessionStorage.setItem("shopcar",JSON.stringify(state.shopcar));
         },
-        updategoodinfo(state,goodinfo){
-            //购物车的数据同步
-            
+        updategoodinfo(state,goodobj){
+            //购物车的数据同步 obj:  id:id   count:num
+             state.shopcar.some(item=>{
+                 if(item.id==goodobj.id){
+                     item.count=parseInt(goodobj.count);
+                     return true;
+                 }
+             })
+             //重新存储到sessionStorage
+             sessionStorage.setItem("shopcar",JSON.stringify(state.shopcar));
         }
     },
     getters:{

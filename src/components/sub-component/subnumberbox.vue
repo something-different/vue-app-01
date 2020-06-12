@@ -15,7 +15,8 @@ export default {
     },
     props:[
         'max',
-        'value'
+        'value',
+        'id'
     ],
     watch:{
         max:function(newval,oldval){
@@ -26,6 +27,7 @@ export default {
         getinputnum(){
             this.selectCount=this.$refs.inputnum.value;
             this.$emit('getcount',this.selectCount);
+            this.$emit('getshopcarid',this.id);
         },
     }
 }
