@@ -82,11 +82,11 @@ export default {
         },
         balltrans(){
             this.ballflag=!this.ballflag;
-            //对象内容应该是{id：商品id,title:商品title，count：商品数量，price：商品单价，selected：商品选择状态}
+            //对象内容应该是{id：商品id,title:商品title，count：商品数量，price：商品单价，selectflag：商品选择状态}
             var shopobj={
                 id:this.id,
                 title:this.goodinfo.good_name,
-                count:this.selectnum,
+                count:parseInt(this.selectnum),
                 price:this.goodinfo.good_price_new,
                 img:this.goodinfoimg[0],
                 selectflag:true,

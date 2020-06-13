@@ -3,7 +3,10 @@
         <div class="goodtable">
             <div class="shopcarlist" v-for="(item , i) in goodcarlist" :key="i">
             <div class="left">
-                <mt-switch v-model="value" @change="getsum(item.id,value,item.count,item.price)"></mt-switch>
+                <mt-switch 
+                v-model="$store.getters.getselect[item.id]"
+                @change="selectchange(item.id,$store.getters.getselect[item.id])"
+                ></mt-switch>
             </div>
             <div class="middle">
                 <img :src="item.img" alt="">
@@ -13,7 +16,7 @@
                 <div class="info">
                     <span class="price">￥{{item.price}}</span>
                     <numberbox :value="item.count" :id="item.id" @getcount='getcount' @getshopcarid='getshopcarid'></numberbox>
-                    <a href="" class="del">删除</a>
+                    <a href="" class="del" @click.prevent="delitem(item.id,i)">删除</a>
                 </div>
             </div>
             </div>
@@ -21,7 +24,12 @@
         <div class="settlement">
             <div class="settlementinfo">
                 <h3>总计</h3>
-                <span class="goodsinfo">已勾选商品<span>{{sumnum}}</span>，总价：<span>￥{{sumprice}}</span></span>
+                <span class="goodsinfo">
+                    已勾选商品
+                    <span>{{$store.getters.getgoodcountsum}}</span>
+                    ，总价：
+                    <span>￥{{$store.getters.getgoodpricesum}}</span>
+                </span>
             </div>
             <div class="button">
                 <mt-button size='normal' type='danger'>去结算</mt-button>
@@ -69,8 +77,14 @@ export default {
             }
             this.$store.commit('updategoodinfo',obj);
         },
-        getsum(id,value,count,price){
-            console.log(id,value,count,price);
+        //删除按钮
+        delitem(id,i){//id删除的是store中的数据，i删除goodlist中数据
+            this.$store.commit('delgoodinfo',id);
+            this.goodcarlist.splice(i,1);
+        },
+        //改变item选中状态
+        selectchange(id,selectflag){
+            this.$store.commit('selgoodinfo',{id,selectflag});
         }
     },
     components:{

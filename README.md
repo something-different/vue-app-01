@@ -394,6 +394,16 @@ const store=new Vuex.Store({
    3.1 这里首先要获取用户点击不同的gooditem的id和count值，这里通过向子组件传递这两个值，再通过子组件传回来得到值（这里应该有更好的方法，但是此时的numberbox封装成子组件，导致无法直接获取，所以组件有优点也有缺点啊~~~）
    
    3.2 在获取了id 和count 值之后，可以重新更改store中的值（通过mutations）和sessionStorage的值
+4. 保存单选框的状态
+   
+   4.1 获取item的selectflag 的值。这里通过store的getter的方法将flag暂存到数组中，然后通过id取出
+
+   4.2 更新store的值，将id传过去`$store.getters.getselect[item.id]`
+
+5. 实现删除按钮（这里将item.id和i同时传值过去，item.id 是删除store中的数据，i删除的是goodcarlist界面中的数据）
+6. 实现结算功能（这里利用的是store.getters的方法，循环得到总数以及总价，返回相应结果）
+
+## Apach的gizp压缩
 
 ## 尝试在手机上 去进行项目的预览和测试
 1. 要保证自己的手机可以正常运行；
